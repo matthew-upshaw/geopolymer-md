@@ -1,0 +1,51 @@
+# ReaxFF potential for KAS-CAS system
+
+units		real
+
+atom_style	charge
+read_data	KAS_CAS_8_react.dat
+
+pair_style	reaxff control.reax
+pair_coeff	* * ffieldAS.reax H O Al Si K Ca
+
+newton		on
+
+compute reax all pair reaxff
+
+variable eb	equal c_reax[1]
+variable ea  	equal c_reax[2]
+variable elp 	equal c_reax[3]
+variable emol 	equal c_reax[4]
+variable ev 	equal c_reax[5]
+variable epen 	equal c_reax[6]
+variable ecoa 	equal c_reax[7]
+variable ehb 	equal c_reax[8]
+variable et 	equal c_reax[9]
+variable eco 	equal c_reax[10]
+variable ew 	equal c_reax[11]
+variable ep 	equal c_reax[12]
+variable efi 	equal c_reax[13]
+variable eqeq 	equal c_reax[14]
+
+neigh_modify every 10 delay 0 check yes
+
+thermo 1000
+thermo_modify lost warn
+
+dump 1 all custom 100 dump.KAS_CAS_8_cool.bin id type q x y z vx vy vz
+
+fix 	1 all qeq/reaxff 10 0.0 7.0 1.0e-6 reaxff
+
+timestep 0.25
+
+# Write a restart file every 10000 steps
+restart 10000 KAS_CAS_8_cool.rest
+
+# Hold the system at 2000 K for 1 ns
+fix	2 all nvt temp 2000 300 $(100.0*dt)
+run	750000
+unfix	2
+
+# Write the data
+write_data	KAS_CAS_8_cool.dat
+write_restart	KAS_CAS_8_cool.rest2

@@ -1,0 +1,47 @@
+# ReaxFF potential for KAS-CAS system
+
+variable	A string K_Ca_2
+
+units		real
+boundary	p p p
+
+atom_style	charge
+timestep	1e-03
+
+read_data	KAS_CAS_2_equil.dat
+
+pair_style	reaxff control.reax
+pair_coeff	* * ffieldAS.reax H O Al Si K Ca
+
+newton		on
+
+compute reax all pair reaxff
+
+variable eb	equal c_reax[1]
+variable ea  	equal c_reax[2]
+variable elp 	equal c_reax[3]
+variable emol 	equal c_reax[4]
+variable ev 	equal c_reax[5]
+variable epen 	equal c_reax[6]
+variable ecoa 	equal c_reax[7]
+variable ehb 	equal c_reax[8]
+variable et 	equal c_reax[9]
+variable eco 	equal c_reax[10]
+variable ew 	equal c_reax[11]
+variable ep 	equal c_reax[12]
+variable efi 	equal c_reax[13]
+variable eqeq 	equal c_reax[14]
+
+fix 		1 all qeq/reaxff 10 0.0 7.0 1.0e-6 reaxff
+
+# Compute the XRD pattern
+compute	XRD all xrd 1.541838 H O Al Si K Ca 2Theta 5 80 c 2 2 2 LP 0 echo
+
+fix		2 all ave/histo/weight 1 1 1 5 80 100000 c_XRD[1] c_XRD[2] &
+		mode vector file $A.hist.xrd
+
+#dump		1 all custom 1 $A.dump id x y z
+run		0
+
+unfix		2
+uncompute	XRD

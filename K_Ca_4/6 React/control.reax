@@ -1,0 +1,17 @@
+simulation_name		KAS_CAS_2
+
+tabulate_long_range	10000
+energy_update_freq	100
+
+nbrhood_cutoff		4.5
+hbond_cutoff		6.0
+bond_graph_cutoff	0.3
+thb_cutoff		0.001
+
+write_freq		100
+traj_title		KAS_CAS_2
+atom_info		1
+atom_forces		1
+atom_velocities		1
+bond_info		1
+angle_info		1

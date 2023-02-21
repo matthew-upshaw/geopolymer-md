@@ -1,0 +1,41 @@
+#
+# A mixture of KOH, Si(OH)4, Al(OH)3, and Ca(OH)2 with K:Ca = 8.0
+#
+
+# All the atoms from diferent molecules will be separated at least 2.0
+# Angstroms at the solution.
+
+tolerance 2.0
+
+# The file type of input and output files is PDB
+
+filetype pdb
+
+# The name of the output file
+
+output KAS_CAS_8.pdb
+
+# 40 KOH molecules, 80 Si(OH)4 molecules, 40 Al(OH)3, and 5 Ca(OH)2 molecules will
+# be put in a box defined by the minimum coordinates x, y and z = 0. 0. 0. 
+# and maximum coordinates 22. 22. 22. That is, they will be put in a cube of 
+# side 22. (the keyword "inside cube 0. 0. 0. 22.") could be used as well.
+
+structure KOH.pdb 
+  number 40
+  inside box 0. 0. 0. 22. 22. 22. 
+end structure
+
+structure Si(OH)4.pdb
+  number 80
+  inside box 0. 0. 0. 22. 22. 22. 
+end structure
+
+structure Al(OH)3.pdb
+  number 40
+  inside box 0. 0. 0. 22. 22. 22.
+end structure
+
+structure Ca(OH)2.pdb
+  number 5
+  inside box 0. 0. 0. 22. 22. 22.
+end structure

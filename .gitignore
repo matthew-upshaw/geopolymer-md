@@ -1,0 +1,7 @@
+*rest*
+*.lammps
+dump.*
+*.ovito
+*Test*
+*.txt
+*.xlsx
